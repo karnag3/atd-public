@@ -1,0 +1,21 @@
+---
+
+- name: Create DNS Server on ATD LabVM
+  hosts: localhost
+
+  tasks:
+    - name: Update cache and install dnsmasq package
+      apt:
+        name: dnsmasq
+        update_cache: yes
+
+    - name: Add Arista devices to hosts file on LabVM
+      lineinfile:
+        dest: /etc/hosts
+        line: "{{ hostvars[item].ansible_host }} {{ item }}"
+      with_items: "{{ groups.arista }}"
+
+    - name: Restart dnsmasq service
+      service:
+        name: dnsmasq
+        state: restarted
