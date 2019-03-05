@@ -1,0 +1,51 @@
+deviceid: 2
+
+interfaces:
+  - name: Loopback0
+    mode: loopback
+    ip: 172.16.0.{{ deviceid }}/32
+    desc: Device ID
+    shutdown: no
+    ospf: yes
+    area: 0.0.0.0
+
+  - name: Ethernet1
+    mode: l2access
+    desc: Not in Use
+    shutdown: yes
+
+  - name: Ethernet2
+    mode: routed
+    ip: 172.16.200.17/30
+    desc: LEAF1
+    ospf: yes
+    area: 0.0.0.0
+    ospfnet: point-to-point
+    shutdown: no
+
+  - name: Ethernet3
+    mode: routed
+    ip: 172.16.200.21/30
+    desc: LEAF2
+    ospf: yes
+    area: 0.0.0.0
+    ospfnet: point-to-point
+    shutdown: no
+
+  - name: Ethernet4
+    mode: routed
+    ip: 172.16.200.25/30
+    desc: LEAF3
+    ospf: yes
+    area: 0.0.0.0
+    ospfnet: point-to-point
+    shutdown: no
+
+  - name: Ethernet5
+    mode: routed
+    ip: 172.16.200.29/30
+    desc: LEAF4
+    ospf: yes
+    area: 0.0.0.0
+    ospfnet: point-to-point
+    shutdown: no

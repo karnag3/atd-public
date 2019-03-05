@@ -1,0 +1,4 @@
+{% for int in hostvars[inventory_hostname].interfaces -%}
+interface {{ int.name }}
+   description {{ int.desc }}
+{% endfor -%}

@@ -1,0 +1,44 @@
+---
+
+- name: Our First Playbook
+  hosts: arista
+  gather_facts: no
+  tasks:
+    - name: Gather the Facts
+      eos_facts:
+    
+    - name: Tell us if Device is running M Code Train
+      debug:
+        msg: This device is running an M Code Train!
+      when: "'M' in ansible_net_version"
+
+    - name: Tell us if Device is running F Code Train
+      debug:
+        msg: This device is running an F Code Train!
+      when: "'F' in ansible_net_version"
+
+    - name: Tell us if Device is running FX Code Train
+      debug:
+        msg: This device is super special and running an FX Code Train!
+      when: "'FX' in ansible_net_version"
+
+    - name: Get the JSON Output of Show Inventory
+      eos_command:
+        commands: show inventory | json
+      register: inventory
+
+    - name: Tell us the total number of ports on the device
+      debug:
+        msg: This device has "{{ inventory.stdout[0].portCount }}" ports!
+
+    - name: Get L2 Ports
+      debug:
+        msg: "{{ item.key }} is an L2 Port!"
+      with_dict: "{{ ansible_net_interfaces }}"
+      when: "item.value.type == 'bridged'"
+
+    - name: Get L3 Ports
+      debug:
+        msg: "{{ item.key }} is an L3 Port!"
+      with_dict: "{{ ansible_net_interfaces }}"
+      when: "item.value.type == 'routed'"

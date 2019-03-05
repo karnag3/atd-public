@@ -1,0 +1,14 @@
+{% for int in hostvars[inventory_hostname].interfaces -%}
+
+{% if int.ospf is defined and int.mode != 'loopback' -%}
+interface {{ int.name }}
+   ip ospf area {{ int.area }}
+   ip ospf network {{ int.ospfnet }}
+
+{% elif int.ospf is defined and int.mode == 'loopback' -%}
+interface {{ int.name }}
+   ip ospf area {{ int.area }}
+
+{% endif %}
+
+{% endfor %}

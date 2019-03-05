@@ -1,0 +1,12 @@
+router ospf 100
+   router-id {{ routerid }}
+   passive-interface default
+
+{% for int in hostvars[inventory_hostname].interfaces -%}
+
+{% if int.ospf is defined -%}
+router ospf 100
+   no passive-interface {{ int.name }}
+{% endif -%}
+
+{% endfor -%}

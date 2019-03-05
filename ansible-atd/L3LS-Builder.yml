@@ -1,0 +1,75 @@
+---
+
+- name: Play 1 - Set System Information
+  hosts: all
+  gather_facts: no
+
+  tasks:
+
+    - name: Task 1 - Set Hostname and Domain Name
+      eos_system:
+        hostname: "{{ inventory_hostname }}"
+        domain_name: "{{ domain_name }}"
+
+    - name: Task 2 - Set DNS Server, Set Lookup Source to Mgmt1
+      eos_system:
+        name_servers:
+          - "{{ dns_server }}"
+        lookup_source:
+          - interface: Management1
+
+    - name: Task 3 - Set NTP Server
+      eos_config:
+        src: ntp.j2
+
+
+
+- name: Play 2 - Get Information About Host
+  hosts: all
+  gather_facts: no
+
+  tasks:
+
+    - name: Task 1 - Gather EOS Facts
+      eos_facts:
+
+
+
+- name: Play 3 - Configure Spine/Leaf Interfaces
+  hosts: all
+  gather_facts: no
+
+  tasks:
+
+    - name: Task 1 - Set Interface Descriptions
+      tags: intdesc
+      eos_config:
+        src: intdesc.j2
+
+    - name: Task 2 - Set Loopback Interface IP Addresses
+      tags: loopips
+      eos_config:
+        src: loopips.j2
+
+    - name: Task 3 - Set Interface IP Addresses
+      tags: intips
+      eos_config:
+        src: intips.j2
+
+
+
+- name: Play 4 - Configure OSPF
+  hosts: all
+  gather_facts: no
+
+  tasks:
+
+    - name: Task 1 - Configure the OSPF Process
+      tags: ospfproc
+      eos_config:
+        src: ospfproc.j2
+
+    - name: Task 2 - Enable OSPF on Interfaces
+      tags: ospfints
+      eos_config:
+        src: ospfints.j2

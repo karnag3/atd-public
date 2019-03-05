@@ -1,0 +1,8 @@
+{% for int in hostvars[inventory_hostname].interfaces -%}
+
+{% if int.mode is defined and int.mode == 'loopback' -%}
+interface {{ int.name }}
+   ip address {{ int.ip }}
+{% endif -%}
+
+{% endfor -%}

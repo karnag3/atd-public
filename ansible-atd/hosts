@@ -1,0 +1,12 @@
+[eos:children]
+leafs
+spines
+
+[spines]
+spine[1:2]
+
+[leafs]
+leaf[1:4]
+
+[mlag]
+leaf[1:4]

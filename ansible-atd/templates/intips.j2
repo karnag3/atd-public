@@ -1,0 +1,9 @@
+{% for int in hostvars[inventory_hostname].interfaces -%}
+
+{% if int.mode is defined and int.mode == 'routed' -%}
+interface {{ int.name }}
+   no switchport
+   ip address {{ int.ip }}
+{% endif -%}
+
+{% endfor -%}
