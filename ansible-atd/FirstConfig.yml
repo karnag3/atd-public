@@ -1,0 +1,15 @@
+---
+
+- name: Our first configuration via Ansible
+  hosts: arista
+  gather_facts: no
+
+  tasks:
+    - name: Gather Facts
+      eos_facts:
+
+    - name: Set the MOTD Banner
+      eos_banner:
+        banner: motd
+        text: Welcome to {{ inventory_hostname }}, running {{ ansible_net_version }}!
+        state: present
