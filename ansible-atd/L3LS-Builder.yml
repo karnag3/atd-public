@@ -1,7 +1,7 @@
 ---
 
 - name: Play 1 - Set System Information
-  hosts: all
+  hosts: arista
   gather_facts: no
 
   tasks:
@@ -17,15 +17,17 @@
           - "{{ dns_server }}"
         lookup_source:
           - interface: Management1
+      tags: dns
 
     - name: Task 3 - Set NTP Server
       eos_config:
-        src: ntp.j2
-
-
+        lines: 
+          - ntp server {{ ntp_server }} prefer
+          - clock timezone {{ timezone }}
+      tags: ntp
 
 - name: Play 2 - Get Information About Host
-  hosts: all
+  hosts: arista
   gather_facts: no
 
   tasks:
@@ -36,7 +38,7 @@
 
 
 - name: Play 3 - Configure Spine/Leaf Interfaces
-  hosts: all
+  hosts: arista
   gather_facts: no
 
   tasks:
@@ -44,22 +46,22 @@
     - name: Task 1 - Set Interface Descriptions
       tags: intdesc
       eos_config:
-        src: intdesc.j2
+        src: ./templates/intdesc.j2
 
     - name: Task 2 - Set Loopback Interface IP Addresses
       tags: loopips
       eos_config:
-        src: loopips.j2
+        src: ./templates/loopips.j2
 
     - name: Task 3 - Set Interface IP Addresses
       tags: intips
       eos_config:
-        src: intips.j2
+        src: ./templates/intips.j2
 
 
 
 - name: Play 4 - Configure OSPF
-  hosts: all
+  hosts: arista
   gather_facts: no
 
   tasks:
@@ -67,9 +69,9 @@
     - name: Task 1 - Configure the OSPF Process
       tags: ospfproc
       eos_config:
-        src: ospfproc.j2
+        src: ./templates/ospfproc.j2
 
     - name: Task 2 - Enable OSPF on Interfaces
       tags: ospfints
       eos_config:
-        src: ospfints.j2
+        src: ./templates/ospfints.j2

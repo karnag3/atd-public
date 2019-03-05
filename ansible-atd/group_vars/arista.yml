@@ -8,5 +8,7 @@ ansible_become_method: enable
 
 domain_name: atd.local
 dns_server: 192.168.0.4
-ntp_server: time.google.com
+ntp_server: 216.239.35.4
 timezone: America/Detroit
+
+routerid: "172.16.0.{{ hostvars[inventory_hostname].deviceid }}"
