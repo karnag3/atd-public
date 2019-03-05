@@ -8,5 +8,5 @@
 
     - name: Task 1 - Blast Routes
       eos_config:
-        src: RouteBlaster.j2
+        src: "{{ playbook_dir }}/templates/RouteBlaster.j2"
 

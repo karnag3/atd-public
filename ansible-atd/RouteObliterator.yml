@@ -8,5 +8,5 @@
 
     - name: Task 1 - Obliterate Routes
       eos_config:
-        src: RouteObliterator.j2
+        src: "{{ playbook_dir }}/templates/RouteObliterator.j2"
 
