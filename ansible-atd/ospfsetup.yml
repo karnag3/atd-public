@@ -1,0 +1,33 @@
+---
+
+- name: Play 1 - Enable eAPI
+  hosts: ospf
+  gather_facts: no
+  vars:
+    ansible_connection: network_cli
+
+  tasks:
+
+    - name: enable eAPI
+      eos_eapi:
+    
+    - name: No Shut eAPI
+      eos_config:
+        lines:
+          - no shutdown
+          - protocol http
+        parents: management api http-commands
+
+
+- name: Play 2 - Applying Base IPv4 Configuration for OSPF Class
+  hosts: ospf
+  gather_facts: no
+
+  tasks:
+
+    - name: Gather EOS Facts
+      eos_facts:
+
+    - name: Apply Base IPv4 Configuration
+      eos_config:
+        src: ./configs/{{inventory_hostname}}.cfg

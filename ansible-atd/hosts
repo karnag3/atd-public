@@ -1,6 +1,7 @@
 [arista:children]
 leafs
 spines
+ospf
 
 [spines]
 spine[1:2]
@@ -10,3 +11,6 @@ leaf[1:4]
 
 [mlag]
 leaf[1:4]
+
+[ospf]
+eos[1:8]
