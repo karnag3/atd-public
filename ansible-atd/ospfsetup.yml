@@ -18,6 +18,16 @@
           - protocol http
         parents: management api http-commands
 
+- name: Play 2 - Cleanup Configs
+  hosts: eos5,eos8
+  gather_facts: no
+
+  tasks:
+
+    - name: Cleanup configs
+      eos_config:
+        src: ./configs/cleanup.cfg
+
 
 - name: Play 2 - Applying Base IPv4 Configuration for OSPF Class
   hosts: ospf
