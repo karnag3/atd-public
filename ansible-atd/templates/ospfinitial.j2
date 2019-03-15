@@ -7,5 +7,5 @@ interface Loopback0
 {% for int in hostvars[inventory_hostname].ospfints -%}
 interface {{ int.name }}
     ip ospf network point-to-point
-    ip ospf {{ int.area }}
+    ip ospf area {{ int.area }}
 {% endfor -%}
