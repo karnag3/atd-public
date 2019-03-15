@@ -29,7 +29,7 @@
         src: ./configs/cleanup.cfg
 
 
-- name: Play 2 - Applying Base IPv4 Configuration for OSPF Class
+- name: Play 3 - Applying Base IPv4 Configuration for OSPF Class
   hosts: ospf
   gather_facts: no
 
@@ -43,7 +43,7 @@
         src: ./configs/{{inventory_hostname}}.cfg
 
 
-- name: Play 3 - Enabling Base OSPF Configuration
+- name: Play 4 - Enabling Base OSPF Configuration
   hosts: ospf
   gather_facts: no
 
@@ -55,9 +55,9 @@
       tags: ospfinit
 
 
-- name: Play 4 - Update LabAccess Login Script
+- name: Play 5 - Update LabAccess Login Script
   hosts: localhost
-  gather_facts: no
+  become: yes
 
   tasks:
 
@@ -65,6 +65,5 @@
       copy:
         src: ospflogin.py
         dest: /usr/local/bin/login.py
-        owner: arista
         mode: 0777
       tags: login
