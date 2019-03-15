@@ -53,3 +53,18 @@
       eos_config:
         src: ./templates/ospfinitial.j2
       tags: ospfinit
+
+
+- name: Play 4 - Update LabAccess Login Script
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - name: Copy ospflogin.py to /usr/local/bin
+      copy:
+        src: ospflogin.py
+        dest: /usr/local/bin/login.py
+        owner: arista
+        mode: 0777
+      tags: login
