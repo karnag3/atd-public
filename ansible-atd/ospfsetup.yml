@@ -41,3 +41,14 @@
     - name: Apply Base IPv4 Configuration
       eos_config:
         src: ./configs/{{inventory_hostname}}.cfg
+
+
+- name: Play 3 - Enabling Base OSPF Configuration
+  hosts: ospf
+  gather_facts: no
+
+  tasks:
+
+    - name: Create OSPF process and enable OSPF on Lo0
+      eos_config:
+        src: ./templates/ospfinitial.j2
