@@ -8,3 +8,4 @@ interface Loopback0
 interface {{ int.name }}
     ip ospf network point-to-point
     ip ospf {{ int.area }}
+{% endfor -%}
