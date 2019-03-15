@@ -52,3 +52,4 @@
     - name: Create OSPF process and enable OSPF on Lo0
       eos_config:
         src: ./templates/ospfinitial.j2
+      tags: ospfinit
