@@ -4,7 +4,7 @@ router ospf 100
 interface Loopback0
     ip ospf area {{ loop0area }}
 !
-{% for int in hostvar[inventory_hostname].ospfints -%}
+{% for int in hostvars[inventory_hostname].ospfints -%}
 interface {{ int.name }}
     ip ospf network point-to-point
     ip ospf {{ int.area }}
