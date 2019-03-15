@@ -1,3 +1,12 @@
 ansible_host: 192.168.0.15
 deviceid: 7
 loop0area: 0
+ospfints:
+  - name: Ethernet2
+    area: 0
+  - name: Ethernet3
+    area: 0
+  - name: Vlan100
+    area: 10
+  - name: Vlan678
+    area: 10
