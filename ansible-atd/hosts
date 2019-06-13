@@ -3,6 +3,10 @@ leafs
 spines
 ospf
 
+[dc:children]
+spines
+leafs
+
 [spines]
 spine[1:2]
 
