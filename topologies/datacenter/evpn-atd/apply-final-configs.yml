@@ -1,0 +1,15 @@
+---
+
+- name: Apply Base Configs for EVPN ATD
+  hosts: evpn
+  gather_facts: no
+
+  tasks:
+    - name: Gather Facts
+      eos_facts:
+
+    - name: Apply Final Configs
+      eos_config:
+        src: "./backup/{{ inventory_hostname }}-evpn-final.cfg"
+        replace: config
+        save_when: always
