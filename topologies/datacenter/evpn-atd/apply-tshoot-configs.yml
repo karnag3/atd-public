@@ -1,0 +1,30 @@
+---
+
+- name: Apply Troubleshooting Configs
+  hosts: evpn
+  gather_facts: no
+
+  tasks:
+    - name: Gather Facts
+      eos_facts:
+
+    - name: Apply Troubleshooting Lab A Configs
+      eos_config:
+        src: "./backup/{{ inventory_hostname }}-evpn-tshoot-a.cfg"
+        replace: config
+        save_when: always
+      tags: tshoot-a
+
+    - name: Apply Troubleshooting Lab B Configs
+      eos_config:
+        src: "./backup/{{ inventory_hostname }}-evpn-tshoot-b.cfg"
+        replace: config
+        save_when: always
+      tags: tshoot-b
+
+    - name: Apply Troubleshooting Lab C Configs
+      eos_config:
+        src: "./backup/{{ inventory_hostname }}-evpn-tshoot-c.cfg"
+        replace: config
+        save_when: always
+      tags: tshoot-c
