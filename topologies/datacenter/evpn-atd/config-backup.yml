@@ -22,3 +22,23 @@
           filename: "{{ inventory_hostname }}-evpn-final.cfg"
       tags: final
 
+    - name: Backup Configs - Troubleshooting A
+      eos_config:
+        backup: yes
+        backup_options:
+          filename: "{{ inventory_hostname }}-evpn-tshoot-a.cfg"
+      tags: tshoot-a
+
+    - name: Backup Configs - Troubleshooting B
+      eos_config:
+        backup: yes
+        backup_options:
+          filename: "{{ inventory_hostname }}-evpn-tshoot-b.cfg"
+      tags: tshoot-b
+
+    - name: Backup Configs - Troubleshooting C
+      eos_config:
+        backup: yes
+        backup_options:
+          filename: "{{ inventory_hostname }}-evpn-tshoot-c.cfg"
+      tags: tshoot-c
