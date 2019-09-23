@@ -8,8 +8,17 @@
     - name: Gather Facts
       eos_facts:
 
-    - name: Backup Configs
+    - name: Backup Configs - Base
       eos_config:
         backup: yes
         backup_options:
           filename: "{{ inventory_hostname }}-evpn-base.cfg"
+      tags: base
+
+    - name: Backup Configs - Final
+      eos_config:
+        backup: yes
+        backup_options:
+          filename: "{{ inventory_hostname }}-evpn-final.cfg"
+      tags: final
+
