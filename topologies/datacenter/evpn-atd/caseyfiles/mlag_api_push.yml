@@ -1,0 +1,46 @@
+---
+#ansible-playbook ~/Documents/mlag_api_push.yml -e "outputed_template=swA-64699"
+- hosts: localhost
+  gather_facts: yes
+  connection: local
+  vars:
+    switch_config: "{{ lookup('file', '~/Documents/{{ outputed_template }}') }}"
+
+  tasks:
+    - name: Setup REST API Session and login to CVP
+      uri:
+       url: "https://192.168.0.5/cvpservice/login/authenticate.do"
+       method: POST
+       validate_certs: no
+       headers: 
+         Accept: "application/json"
+         Content-Type: "application/json"
+       body_format: "json"
+       body:
+        userId: "arista"
+        password: "arista"
+       force_basic_auth: yes
+       status_code: 200,201
+      register: login
+
+    - name: Add MLAG Configlet
+      uri:
+        url: "https://192.168.0.5/cvpservice/configlet/addConfiglet.do"
+        method: POST
+        validate_certs: no
+        return_content: yes
+        headers:
+          Cookie: "{{ login.set_cookie }}"
+        body_format: "json"
+        body:
+          name: "A_mlag_config_for_{{ outputed_template }}"
+          config: "{{ switch_config }}"
+
+    - name: Logout of CVP
+      uri: 
+        url: "https://192.168.0.5/cvpservice/login/logout.do"
+        method: POST
+        validate_certs: no
+        return_content: yes
+        headers:
+          Cookie: "{{ login.set_cookie }}"

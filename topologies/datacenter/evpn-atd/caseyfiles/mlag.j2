@@ -1,0 +1,31 @@
+interface Port-Channel5
+{% for host in groups['all_arista_switches'] %}
+{%    if ( (host[-5:] == inventory_hostname[-5:]) and (host != inventory_hostname) ) %}
+{% set peer_hostname = host %}
+   description to {{ peer_hostname }}//MLAG peer link//VLAN4094//E[29-30]-1
+   switchport mode trunk
+   switchport trunk group MLAGPEER
+   mtu 9214
+!
+{%      for interface in range (29,31) %}
+interface Ethernet{{ interface }}/1
+   description to {{ peer_hostname }}//MLAG peer link//Port-Channel5
+   channel-group 5 mode active
+   mtu 9214
+!
+{%      endfor %}
+{%    endif %}
+{% endfor %}
+!
+!
+mlag configuration
+   domain-id {{ inventory_hostname[-5:] }}
+   local-interface VLAN4094
+{% set ipaddr = '192.168.1.1' %}
+{%    if inventory_hostname[-7] == 'A' %}
+   peer-address {{ ipaddr|ipmath(1) }}
+{%    elif inventory_hostname[-7] == 'B' %}
+   peer-address {{ ipaddr }}
+{%    endif %}
+   peer-link Port-Channel5
+   reload-delay mlag 930

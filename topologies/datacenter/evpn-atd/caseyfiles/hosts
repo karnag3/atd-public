@@ -1,0 +1,8 @@
+[all:vars]
+ansible_connection=local
+ansible_python_interpreter=/usr/bin/python2.7
+#
+[all_arista_switches]
+#Arista switches
+swA-64699 ansible_host=192.168.1.1
+swB-64699 ansible_host=192.168.1.2

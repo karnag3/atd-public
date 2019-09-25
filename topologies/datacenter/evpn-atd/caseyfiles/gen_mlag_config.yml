@@ -1,0 +1,8 @@
+---
+#ansible-playbook ~/Documents/gen_mlag_config.yml -i ~/Documents/hosts
+- hosts: 'all_arista_switches'
+  connection: local
+  
+  tasks:
+    - name: generate mlag configurations for arista leaf switches. 
+      template:  src=mlag.j2 dest={{ inventory_hostname }}
