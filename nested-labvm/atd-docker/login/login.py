@@ -79,28 +79,20 @@ if topology != 'datacenter':
   # Sort the list naturally
   veosinfo = sortVEOS(veosinfo)
 
-if sys.stdout.isatty():
-
-  def signal_handler(signal, frame):
-    print("\n")
-    quit()
-
-  signal.signal(signal.SIGINT, signal_handler)
-
-
+def main():
   ans=True
   while ans:
     print ("""
-Jump Host for Arista Demo Cloud
+  Jump Host for Arista Demo Cloud
 
-Screen Instructions:
+  Screen Instructions:
 
-   * Select specific screen - Ctrl + a <number>
-   * Select previous screen - Ctrl + a p
-   * Select next screen - Ctrl + a n
-   * Exit all screens (return to menu) - Ctrl + a \\
+    * Select specific screen - Ctrl + a <number>
+    * Select previous screen - Ctrl + a p
+    * Select next screen - Ctrl + a n
+    * Exit all screens (return to menu) - Ctrl + a \\
 
-Device Menu:            Lab Controls
+  Device Menu:            Lab Controls
 
     """)
 
@@ -113,11 +105,11 @@ Device Menu:            Lab Controls
       sys.stdout.write(veos['hostname'])
 
       if labcontrol != None:
-         sys.stdout.write("\t\t  ")
-         sys.stdout.write(str(counter+20))
-         sys.stdout.write(". ")
-         optionValues = labcontrols[labcontrol][0]
-         sys.stdout.write(optionValues['description'])
+          sys.stdout.write("\t\t  ")
+          sys.stdout.write(str(counter+20))
+          sys.stdout.write(". ")
+          optionValues = labcontrols[labcontrol][0]
+          sys.stdout.write(optionValues['description'])
 
       sys.stdout.write("\n")
 
@@ -129,13 +121,13 @@ Device Menu:            Lab Controls
       sys.stdout.write("\n")
       sys.stdout.write("  Media Controls")
       for labcontrol2 in labcontrols2:
-         counter += 1
-         sys.stdout.write("\n")
-         sys.stdout.write("  ")
-         sys.stdout.write(str(counter+10))
-         sys.stdout.write(". ")
-         optionValues = labcontrols2[labcontrol2][0]
-         sys.stdout.write(optionValues['description'])
+          counter += 1
+          sys.stdout.write("\n")
+          sys.stdout.write("  ")
+          sys.stdout.write(str(counter+10))
+          sys.stdout.write(". ")
+          optionValues = labcontrols2[labcontrol2][0]
+          sys.stdout.write(optionValues['description'])
       sys.stdout.write("\n")
       sys.stdout.write("\n")
 
@@ -190,5 +182,5 @@ Device Menu:            Lab Controls
           print("\n Not Valid Choice Try again")
           break
 
-else:
-  os.system("/usr/lib/openssh/sftp-server")
+if __name__ == '__main__':
+      main()
