@@ -53,7 +53,7 @@
                 <h1>Arista Test Drive Lab</h1>
                 Welcome to the Arista Test Drive Lab! Please use the links on the left to navigate through the lab.
                 <br><br>
-                <h2>Usernames and Passwords</h2>
+                <!-- <h2>Usernames and Passwords</h2>
                 Use the following usernames and passwords to access the ATD:
                 <br>
                 <br>
@@ -64,7 +64,7 @@
                     <td>CVP</td> <td>arista</td> <td>arista</td> </tr> <tr>
                     <td>Lab VM SSH</td> <td>arista</td> <td>arista1234</td> </tr>
                     <td>VEOS Instances</td> <td>arista</td> <td>arista</td> </tr>
-                  </tbody> </table>
+                  </tbody> </table> -->
 
                 <br>
             </div>
