@@ -44,7 +44,7 @@ and enter:
     ansible veos -i ~/Desktop/hosts -m raw -a "show version" -u arista -k
 
 
-Enter the password **arista** when prompted.
+Enter the password **3nAR2vC7** when prompted.
 
 This probably looks complicated at first, but let’s step through it:
 
@@ -133,7 +133,7 @@ it’s doing:
 +-----------------------------------+-----------------------------------+
 |       ``username: "arista"``      | Sets the username to ``arista``   |
 +-----------------------------------+-----------------------------------+
-|       ``password: "arista"``      | Sets the password to ``arista``   |
+|       ``password: "3nAR2vC7"``    | Sets the password to ``3nAR2vC7`` |
 +-----------------------------------+-----------------------------------+
 |       ``authorize: yes``          | Enables once connected            |
 +-----------------------------------+-----------------------------------+

@@ -43,7 +43,7 @@ You will be greeted with a screen like this:
 .. image:: images/programmability_connecting_4.png
    :align: center
 
-Login with the username **arista** and the password **@rista123**. This will bring
+Login with the username **arista** and the password **3nAR2vC7**. This will bring
 you to the ATD Lab Page.  
 
 This lab uses Guacamole to front end both a Linux based desktop (**devbox**)

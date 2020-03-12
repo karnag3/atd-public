@@ -6,7 +6,7 @@ aaa authentication login default local
 aaa authorization exec default local
 !
 username admin privilege 15 role network-admin secret 5 $1$5O85YVVn$HrXcfOivJEnISTMb6xrJc.
-username arista privilege 15 secret 5 $1$4VjIjfd1$XkUVulbNDESHFzcxDU.Tk1
+username arista privilege 15 secret sha512 $6$TkudwGYQ/ebFsXqb$A1E51WtNWA3R20xo7dbaAiuZMwnRIwE0gFl2jm1YIkgu6ib4Egq1X6MvRg2lKfA/q0SL5DfQwWDi4H.Pk4MyD/
 !
 username arista ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlnMdegh/07/0+bKFWbhjy8NsgKklVXBB8DuGALzDjyGKSUeoXgAQLkdonebzR1gOI7ib/jtzOBPIeTZz8PBDz0aUbxSCwYpu0EXJ3vcUMO9RjERqbYFeNW7HYqni7HPjL/sddbKWaMCdu5TiIncJF7K+U9eFtSfkimErAX8M7BcnpIAGuKEU6rMmM9F9SO7PSUTdYAafqfQxKzqc7fcbXONi1Ph59SJppi67uyhzrGDIgqU5JLSECp1cVwEOS4iqwMP0kl3gx75SUuvKDi3UtGUyVT5Wvx66bEFxpWUYrlPN0bMCRC/Sd29AhFlYT5HWVckhue0ke0UF6FhLCM68B
 !

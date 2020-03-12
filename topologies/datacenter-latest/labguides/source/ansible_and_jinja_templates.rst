@@ -87,7 +87,7 @@ Ansible playbook (``ntp.yml``):
         provider:
           host: "{{ ansible_host }}"
           username: "arista"
-          password: "arista"
+          password: "3nAR2vC7"
           authorize: yes
           transport: eapi
           validate_certs: no
