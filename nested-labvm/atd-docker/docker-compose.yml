@@ -60,7 +60,7 @@ services:
       - atd_labguides:/root/labguides/web
   freerad:
     container_name: atd-freeradius
-    image: atddocker_freerad:1.0
+    image: atddocker_freerad:1.1
     restart: always
     ports:
       - "1812:1812/udp"
