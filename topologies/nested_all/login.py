@@ -93,7 +93,15 @@ if sys.stdout.isatty():
     print ("""
 Jump Host for Arista Demo Cloud
 
+Topology Credentials: (username / password)
+=====================
+Lab VM SSH:     arista / 3nAR2vC7
+Lab Frontend:   arista / 3nAR2vC7
+vEOS Instances: arista / 3nAR2vC7
+CVP:            arista / 3nAR2vC7
+
 Screen Instructions:
+====================
 
    * Select specific screen - Ctrl + a <number>
    * Select previous screen - Ctrl + a p
@@ -174,7 +182,7 @@ Device Menu:            Lab Controls
       if ans==str(counter2) or ans==labcontrol:
         os.system(optionValues['command'])
         break
-      elif int(ans) > devicecount and int(ans) < 20:
+      elif ans > devicecount and ans < 20:
         print("\n Not Valid Choice Try again")
         break
 

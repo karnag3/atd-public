@@ -7,6 +7,10 @@ rm -rf /tmp/atd
 
 git clone --branch $BRANCH https://github.com/aristanetworks/atd-public.git /tmp/atd
 
+# Update login.py
+
+cp /tmp/atd/topologies/nested_all/login.py /usr/local/bin/
+
 # Update atdUpdate service
 
 cp /tmp/atd/nested-labvm/services/atdUpdate/atdUpdate.sh /usr/local/bin/
