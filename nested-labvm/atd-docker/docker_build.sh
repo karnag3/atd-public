@@ -13,5 +13,5 @@ docker build -t atddocker_freerad:1.1 freeradius/.
 docker build -t atddocker_nginx:1.0 nginx/.
 docker build -t atddocker_http:1.1 http/.
 docker build -t atddocker_guacd:1.0 guacd/.
-docker build -t atddocker_guacamole:1.0 guacamole/.
+docker build -t atddocker_guacamole:1.1 guacamole/.
 docker build -t atddocker_jenkins:1.0 jenkins/.
