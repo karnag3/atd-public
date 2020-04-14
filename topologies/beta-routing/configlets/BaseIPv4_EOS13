@@ -89,11 +89,7 @@ router bgp 33362
    neighbor 2001:12:13::12 remote-as 12
    neighbor 2001:12:13::12 send-community
    neighbor 2001:12:13::12 maximum-routes 0
-   !
-   address-family ipv4
-      redistribute static
+   redistribute static
    !
    address-family ipv6
-      redistribute static
       neighbor ibgp-full-ipv6 activate
-      neighbor 2001:12:13::12 activate

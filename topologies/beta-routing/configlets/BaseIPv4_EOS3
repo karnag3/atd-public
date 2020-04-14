@@ -120,11 +120,8 @@ router bgp 33362
    neighbor 2001:8::8 peer group ibgp-full-ipv6
    neighbor 2001:9::9 peer group ibgp-full-ipv6
    neighbor 2001:13::13 peer group ibgp-full-ipv6
-   !
-   address-family ipv4
-      redistribute static
+   redistribute static
    !
    address-family ipv6
-      redistribute static
       neighbor ibgp-full-ipv6 activate
       neighbor 2001:3:7::7 activate
