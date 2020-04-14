@@ -4,9 +4,11 @@ interface Ethernet1
    description EOS3
    no switchport
    ip address 10.3.20.20/24
+   ipv6 address 2001:3:2a::2a/64
 !
 interface Loopback0
    ip address 20.20.20.20/32
+   ipv6 address 2001:2a::2a/128
 !
 interface Management1
    ip address 192.168.0.29/24

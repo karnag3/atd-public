@@ -4,9 +4,11 @@ interface Ethernet1
    description EOS7
    no switchport
    ip address 10.0.0.10/24
+   ipv6 address 2001:7:1a::1a/64
 !
 interface Loopback0
    ip address 10.10.10.10/32
+   ipv6 address 2001:1a::1a/128
 !
 interface Management1
    ip address 192.168.0.19/24

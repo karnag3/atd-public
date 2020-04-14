@@ -4,9 +4,11 @@ interface Ethernet1
    description EOS8
    no switchport
    ip address 10.8.15.15/24
+   ipv6 address 2001:8:15::15/64
 !
 interface Loopback0
    ip address 15.15.15.15/32
+   ipv6 address 2001:15::15/128
 !
 interface Management1
    ip address 192.168.0.24/24
