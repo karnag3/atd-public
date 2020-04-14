@@ -93,3 +93,4 @@ router bgp 33362
    !
    address-family ipv6
       neighbor ibgp-full-ipv6 activate
+      neighbor 2001:12:13::12 activate 
