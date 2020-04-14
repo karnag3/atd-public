@@ -66,32 +66,32 @@ ipv6 route 8:8::/64 Null0
 ! BGP Configuration
 !
 router bgp 33362
-   neighbor ibgp-full-ipv4 peer-group
+   neighbor ibgp-full-ipv4 peer group
    neighbor ibgp-full-ipv4 remote-as 33362
    neighbor ibgp-full-ipv4 update-source Loopback0
    neighbor ibgp-full-ipv4 send-community
    neighbor ibgp-full-ipv4 maximum-routes 0
-   neighbor ibgp-full-ipv6 peer-group
+   neighbor ibgp-full-ipv6 peer group
    neighbor ibgp-full-ipv6 remote-as 33362
    neighbor ibgp-full-ipv6 update-source Loopback0
    neighbor ibgp-full-ipv6 send-community
    neighbor ibgp-full-ipv6 maximum-routes 0
-   neighbor 1.1.1.1 peer-group ibgp-full-ipv4
-   neighbor 2.2.2.2 peer-group ibgp-full-ipv4
-   neighbor 3.3.3.3 peer-group ibgp-full-ipv4
-   neighbor 4.4.4.4 peer-group ibgp-full-ipv4
-   neighbor 5.5.5.5 peer-group ibgp-full-ipv4
-   neighbor 6.6.6.6 peer-group ibgp-full-ipv4
-   neighbor 9.9.9.9 peer-group ibgp-full-ipv4
-   neighbor 13.13.13.13 peer-group ibgp-full-ipv4
-   neighbor 2001:1::1 peer-group ibgp-full-ipv6
-   neighbor 2001:2::2 peer-group ibgp-full-ipv6
-   neighbor 2001:3::3 peer-group ibgp-full-ipv6
-   neighbor 2001:4::4 peer-group ibgp-full-ipv6
-   neighbor 2001:5::5 peer-group ibgp-full-ipv6
-   neighbor 2001:6::6 peer-group ibgp-full-ipv6
-   neighbor 2001:9::9 peer-group ibgp-full-ipv6
-   neighbor 2001:13::13 peer-group ibgp-full-ipv6
+   neighbor 1.1.1.1 peer group ibgp-full-ipv4
+   neighbor 2.2.2.2 peer group ibgp-full-ipv4
+   neighbor 3.3.3.3 peer group ibgp-full-ipv4
+   neighbor 4.4.4.4 peer group ibgp-full-ipv4
+   neighbor 5.5.5.5 peer group ibgp-full-ipv4
+   neighbor 6.6.6.6 peer group ibgp-full-ipv4
+   neighbor 9.9.9.9 peer group ibgp-full-ipv4
+   neighbor 13.13.13.13 peer group ibgp-full-ipv4
+   neighbor 2001:1::1 peer group ibgp-full-ipv6
+   neighbor 2001:2::2 peer group ibgp-full-ipv6
+   neighbor 2001:3::3 peer group ibgp-full-ipv6
+   neighbor 2001:4::4 peer group ibgp-full-ipv6
+   neighbor 2001:5::5 peer group ibgp-full-ipv6
+   neighbor 2001:6::6 peer group ibgp-full-ipv6
+   neighbor 2001:9::9 peer group ibgp-full-ipv6
+   neighbor 2001:13::13 peer group ibgp-full-ipv6
    !
    address-family ipv4
       redistribute static
