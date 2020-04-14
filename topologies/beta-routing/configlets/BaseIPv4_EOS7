@@ -1,4 +1,4 @@
-hostname MHT/ISP
+hostname MHT-ISP
 !
 interface Ethernet1
    description KRLS
