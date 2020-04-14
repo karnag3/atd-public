@@ -29,3 +29,24 @@ interface Management1
    ip address 192.168.0.16/24
    no lldp transmit
    no lldp receive
+!
+! Locally Originated Routes
+!
+ip route 100.100.100.0/24 Null0
+!
+ipv6 route 100:100:100::/64 Null0
+!
+! BGP Configuration
+!
+router bgp 7
+   neighbor 10.3.7.3 remote-as 33362
+   neighbor 10.3.7.3 send-community
+   neighbor 10.3.7.3 maximum-routes 0
+   neighbor 2001:3:7::3 remote-as 33362
+   neighbor 2001:3:7::3 send-community
+   neighbor 2001:3:7::3 maximum-routes 0
+   redistribute connected
+   redistribute static
+   !
+   address-family ipv6
+      neighbor 2001:3:7::3 activate

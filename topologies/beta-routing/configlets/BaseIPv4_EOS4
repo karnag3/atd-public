@@ -5,24 +5,44 @@ interface Ethernet1
    no switchport
    ip address 10.4.9.4/24
    ipv6 address 2001:4:9::4/64
+   ip ospf cost 100
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+   ipv6 ospf cost 100
+   ipv6 ospf network point-to-point
+   ipv6 ospf 1 area 0.0.0.0
+   ip pim sparse-mode
 !
 interface Ethernet2
    description ROSE
    no switchport
    ip address 10.4.8.4/24
    ipv6 address 2001:4:8::4/64
+   ip ospf cost 100
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+   ipv6 ospf cost 100
+   ipv6 ospf network point-to-point
+   ipv6 ospf 1 area 0.0.0.0
+   ip pim sparse-mode
 !
 interface Ethernet3
-   description WRRN
+   description Unused
    no switchport
-   ip address 10.4.5.4/24
-   ipv6 address 2001:4:5::4/64
+   shutdown
 !
 interface Ethernet4
    description HOLT
    no switchport
    ip address 10.2.4.4/24
    ipv6 address 2001:2:4::4/64
+   ip ospf cost 101
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+   ipv6 ospf cost 101
+   ipv6 ospf network point-to-point
+   ipv6 ospf 1 area 0.0.0.0
+   ip pim sparse-mode
 !
 interface Ethernet5
    description Unused
@@ -37,8 +57,66 @@ interface Ethernet6
 interface Loopback0
    ip address 4.4.4.4/32
    ipv6 address 2001:4::4/128
+   ipv6 ospf 1 area 0.0.0.0
 !
 interface Management1
    ip address 192.168.0.13/24
    no lldp transmit
    no lldp receive
+!
+! OSPF Config
+!
+router ospf 1
+   router-id 4.4.4.4
+   passive-interface default
+   no passive-interface Ethernet1
+   network 4.4.4.4/32 area 0.0.0.0
+   max-lsa 12000
+!
+ipv6 router ospf 1
+   router-id 4.4.4.4
+   passive-interface default
+   no passive-interface Ethernet1
+!
+! Locally Originated Routes
+!
+ip route 4.4.4.0/24 Null0
+!
+ipv6 route 4:4::/64 Null0
+!
+! BGP Configuration
+!
+router bgp 33362
+   neighbor ibgp-full-ipv4 peer-group
+   neighbor ibgp-full-ipv4 remote-as 33362
+   neighbor ibgp-full-ipv4 update-source Loopback0
+   neighbor ibgp-full-ipv4 send-community
+   neighbor ibgp-full-ipv4 maximum-routes 0
+   neighbor ibgp-full-ipv6 peer-group
+   neighbor ibgp-full-ipv6 remote-as 33362
+   neighbor ibgp-full-ipv6 update-source Loopback0
+   neighbor ibgp-full-ipv6 send-community
+   neighbor ibgp-full-ipv6 maximum-routes 0
+   neighbor 1.1.1.1 peer-group ibgp-full-ipv4
+   neighbor 2.2.2.2 peer-group ibgp-full-ipv4
+   neighbor 3.3.3.3 peer-group ibgp-full-ipv4
+   neighbor 5.5.5.5 peer-group ibgp-full-ipv4
+   neighbor 6.6.6.6 peer-group ibgp-full-ipv4
+   neighbor 8.8.8.8 peer-group ibgp-full-ipv4
+   neighbor 9.9.9.9 peer-group ibgp-full-ipv4
+   neighbor 13.13.13.13 peer-group ibgp-full-ipv4
+   neighbor 2001:1::1 peer-group ibgp-full-ipv6
+   neighbor 2001:2::2 peer-group ibgp-full-ipv6
+   neighbor 2001:3::3 peer-group ibgp-full-ipv6
+   neighbor 2001:5::5 peer-group ibgp-full-ipv6
+   neighbor 2001:6::6 peer-group ibgp-full-ipv6
+   neighbor 2001:8::8 peer-group ibgp-full-ipv6
+   neighbor 2001:9::9 peer-group ibgp-full-ipv6
+   neighbor 2001:13::13 peer-group ibgp-full-ipv6
+   !
+   address-family ipv4
+      redistribute static
+   !
+   address-family ipv6
+      redistribute static
+      neighbor ibgp-full-ipv6 activate
