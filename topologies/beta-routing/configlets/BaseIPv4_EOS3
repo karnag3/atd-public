@@ -71,6 +71,8 @@ router ospf 1
    router-id 3.3.3.3
    passive-interface default
    no passive-interface Ethernet1
+   no passive-interface Ethernet3
+   no passive-interface Ethernet4
    network 3.3.3.3/32 area 0.0.0.0
    max-lsa 12000
 !
@@ -78,6 +80,8 @@ ipv6 router ospf 1
    router-id 3.3.3.3
    passive-interface default
    no passive-interface Ethernet1
+   no passive-interface Ethernet3
+   no passive-interface Ethernet4
 !
 ! Locally Originated Routes
 !
