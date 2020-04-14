@@ -1,22 +1,21 @@
-hostname eos13
+hostname MPLS
 !
 interface Ethernet1
-   description EOS6
+   description EGFK
    no switchport
    ip address 10.6.13.13/24
    ipv6 address 2001:6:13::13/64
 !
 interface Ethernet2
-   description EOS12
+   description MICE/ISP
    no switchport
    ip address 10.12.13.13/24
    ipv6 address 2001:12:13::13/64
 !
 interface Ethernet3
-   description EOS11
+   description Unused
    no switchport
-   ip address 10.11.13.13/24
-   ipv6 address 2001:11:13::13/64
+   shutdown
 !
 interface Loopback0
    ip address 13.13.13.13/32

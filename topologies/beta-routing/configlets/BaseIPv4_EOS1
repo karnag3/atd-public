@@ -1,38 +1,36 @@
-hostname eos1
+hostname TRFL
 !
 interface Ethernet1
-   description EOS2
+   description HOLT
    no switchport
    ip address 10.1.2.1/24
    ipv6 address 2001:1:2::1/64
 !
 interface Ethernet2
-   description EOS7
+   description Unused
    no switchport
-   ip address 10.1.7.1/24
-   ipv6 address 2001:1:7::1/64
+   shutdown
 !
 interface Ethernet3
-   description EOS11
+   description Unused
    no switchport
-   ip address 10.1.11.1/24
-   ipv6 address 2001:1:11::1/64
+   shutdown
 !
 interface Ethernet4
-   description EOS6
+   description EGFK
    no switchport
    ip address 10.1.6.1/24
    ipv6 address 2001:1:6::1/64
 !
 interface Ethernet5
-   description EOS5
+   description Unused
    no switchport
-   ip address 10.1.5.1/24
-   ipv6 address 2001:1:5::1/64
+   shutdown
 !
 interface Ethernet6
-   description EOS17
+   description Unused
    no switchport
+   shutdown
 !
 interface Loopback0
    ip address 1.1.1.1/32

@@ -1,10 +1,16 @@
-hostname eos9
+hostname BDGR
 !
 interface Ethernet1
-   description EOS4
+   description GNBS
+   no switchport
+   ip address 10.4.9.9/24
+   ipv6 address 2001:4:9::9/64
 !
 interface Ethernet2
-   description EOS3
+   description KRLS
+   no switchport
+   ip address 10.3.9.9/24
+   ipv6 address 2001:3:9::9/64
 !
 interface Loopback0
    ip address 9.9.9.9/32

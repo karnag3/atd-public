@@ -1,37 +1,38 @@
-hostname eos3
+hostname KRLS
 !
 interface Ethernet1
-   description EOS9
+   description BDGR
+   no switchport
+   ip address 10.3.9.3/24
+   ipv6 address 2001:3:9::3/64
 !
 interface Ethernet2
-   description EOS7
+   description MHT/ISP
    no switchport
    ip address 10.3.7.3/24
    ipv6 address 2001:3:7::3/64
 !
 interface Ethernet3
-   description EOS2
+   description HOLT
    no switchport
    ip address 10.2.3.3/24
    ipv6 address 2001:2:3::3/64
 !
 interface Ethernet4
-   description EOS5
+   description WRRN
    no switchport
    ip address 10.3.5.3/24
    ipv6 address 2001:3:5::3/64
 !
 interface Ethernet5
-   description EOS4
+   description Unused
    no switchport
-   ip address 10.3.4.3/24
-   ipv6 address 2001:3:4::3/64
+   shutdown
 !
 interface Ethernet6
-   description EOS20
+   description Unused
    no switchport
-   ip address 10.3.20.3/24
-   ipv6 address 2001:3:20::3/64
+   shutdown
 !
 interface Loopback0
    ip address 3.3.3.3/32

@@ -1,35 +1,38 @@
-hostname eos4
+hostname GNBS
 !
 interface Ethernet1
-   description EOS9
+   description BDGR
+   no switchport
+   ip address 10.4.9.4/24
+   ipv6 address 2001:4:9::4/64
 !
 interface Ethernet2
-   description EOS8
+   description ROSE
    no switchport
    ip address 10.4.8.4/24
    ipv6 address 2001:4:8::4/64
 !
 interface Ethernet3
-   description EOS5
+   description WRRN
    no switchport
    ip address 10.4.5.4/24
    ipv6 address 2001:4:5::4/64
 !
 interface Ethernet4
-   description EOS2
+   description HOLT
    no switchport
    ip address 10.2.4.4/24
    ipv6 address 2001:2:4::4/64
 !
 interface Ethernet5
-   description EOS3
+   description Unused
    no switchport
-   ip address 10.3.4.4/24
-   ipv6 address 2001:3:4::4/64
+   shutdown
 !
 interface Ethernet6
-   description EOS16
+   description Unused
    no switchport
+   shutdown
 !
 interface Loopback0
    ip address 4.4.4.4/32

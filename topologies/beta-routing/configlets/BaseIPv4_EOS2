@@ -1,31 +1,30 @@
-hostname eos2
+hostname HOLT
 !
 interface Ethernet1
-   description EOS3
+   description KRLS
    no switchport
    ip address 10.2.3.2/24
    ipv6 address 2001:2:3::2/64
 !
 interface Ethernet2
-   description EOS4
+   description GNBS
    no switchport
    ip address 10.2.4.2/24
    ipv6 address 2001:2:4::2/64
 !
 interface Ethernet3
-   description EOS5
+   description WRRN
    no switchport
    ip address 10.2.5.2/24
    ipv6 address 2001:2:5::2/64
 !
 interface Ethernet4
-   description EOS6
+   description Unused
    no switchport
-   ip address 10.2.6.2/24
-   ipv6 address 2001:2:6::2/64
+   shutdown
 !
 interface Ethernet5
-   description EOS1
+   description TRFL
    no switchport
    ip address 10.1.2.2/24
    ipv6 address 2001:1:2::2/64
