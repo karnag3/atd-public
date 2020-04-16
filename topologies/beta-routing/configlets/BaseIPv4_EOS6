@@ -105,13 +105,13 @@ interface Loopback0
 !
 ! SR Config
 !
-mpls ip
-!
 router isis 1
    !
    segment-routing mpls
       router-id 6.6.6.6
       no shutdown
+!
+mpls ip
 !
 interface Loopback0
    node-segment ipv4 index 106

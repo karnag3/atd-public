@@ -71,13 +71,13 @@ interface Loopback0
 !
 ! SR Config
 !
-mpls ip
-!
 router isis 1
    !
    segment-routing mpls
       router-id 13.13.13.13
       no shutdown
+!
+mpls ip
 !
 interface Loopback0
    node-segment ipv4 index 113
