@@ -88,6 +88,21 @@ ip route 4.4.4.0/24 Null0
 !
 ipv6 route 4:4::/64 Null0
 !
+! Initial ISIS Configuration
+!
+router isis 1
+   net 49.0001.0000.0004.00
+   is-type level-2
+   log-adjacency-changes
+   !
+   address-family ipv4 unicast
+   !
+   address-family ipv6 unicast
+!
+interface Loopback0
+   isis enable 1
+   isis passive
+!
 ! BGP Configuration
 !
 router bgp 33362

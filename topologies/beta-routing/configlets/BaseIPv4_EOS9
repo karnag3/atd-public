@@ -69,7 +69,7 @@ router isis 1
    !
    address-family ipv6 unicast
 !
-interface Loopback1
+interface Loopback0
    isis enable 1
    isis passive
 !
