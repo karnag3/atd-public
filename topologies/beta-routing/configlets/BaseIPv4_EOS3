@@ -122,6 +122,7 @@ mpls ip
 !
 interface Loopback0
    node-segment ipv4 index 103
+   node-segment ipv6 index 203
 !
 ! BGP Configuration
 !
