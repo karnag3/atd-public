@@ -78,6 +78,19 @@ interface Loopback0
    isis enable 1
    isis passive
 !
+! SR Config
+!
+mpls ip
+!
+router isis 1
+   !
+   segment-routing mpls
+      router-id 8.8.8.8
+      no shutdown
+!
+interface Loopback0
+   node-segment ipv4 index 108
+!
 ! BGP Configuration
 !
 router bgp 33362

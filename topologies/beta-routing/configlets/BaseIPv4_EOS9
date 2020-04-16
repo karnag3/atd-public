@@ -79,6 +79,19 @@ interface Ethernet2
    isis metric 100
    isis network point-to-point
 !
+! SR Config
+!
+mpls ip
+!
+router isis 1
+   !
+   segment-routing mpls
+      router-id 9.9.9.9
+      no shutdown
+!
+interface Loopback0
+   node-segment ipv4 index 109
+!
 ! BGP Configuration
 !
 router bgp 33362
