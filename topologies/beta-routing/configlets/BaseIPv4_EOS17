@@ -1,9 +1,9 @@
-hostname eos17
+hostname TRFL-CLIENT
 !
 interface Ethernet1
+   description Uplink to TRFL for Client Simulation
    no switchport
-   ip address 10.16.17.17/24
-   ipv6 address 2001:16:17::17/64
+   ip address 10.1.17.17/24
 !
 interface Loopback0
    ip address 17.17.17.17/32
@@ -13,3 +13,5 @@ interface Management1
    ip address 192.168.0.26/24
    no lldp transmit
    no lldp receive
+!
+ip route 10.0.0.0/8 10.1.17.1

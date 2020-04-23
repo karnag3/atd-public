@@ -1,12 +1,13 @@
-hostname eos14
+hostname EGFK-CLIENT
 !
 interface Ethernet1
    description EOS8
    no switchport
 !
 interface Ethernet2
-   description EOS6
+   description Uplink to EGFK for Client Simulation
    no switchport
+   ip address 10.6.14.14/24
 !
 interface Loopback0
    ip address 14.14.14.14/32
@@ -16,3 +17,5 @@ interface Management1
    ip address 192.168.0.23/24
    no lldp transmit
    no lldp receive
+!
+ip route 10.0.0.0/8 10.6.14.1

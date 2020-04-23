@@ -1,5 +1,8 @@
 hostname EGFK
 !
+vlan 6
+   name Local_Clients
+!
 interface Ethernet1
    description WRRN
    no switchport
@@ -50,9 +53,8 @@ interface Ethernet5
    shutdown
 !
 interface Ethernet6
-   description Unused
-   no switchport
-   shutdown
+   description Uplink to Client
+   switchport access vlan 6
 !
 interface Loopback0
    ip address 6.6.6.6/32
@@ -63,6 +65,15 @@ interface Management1
    ip address 192.168.0.15/24
    no lldp transmit
    no lldp receive
+!
+interface Vlan6
+   description Local network
+   ip address 10.6.14.1/24
+!
+ip prefix-list LOCAL seq 100 permit 10.6.14.0/24
+!
+route-map LOCAL permit 100
+   match ip address prefix-list LOCAL
 !
 ! OSPF Config
 !
@@ -147,6 +158,7 @@ router bgp 33362
    neighbor 2001:9::9 peer group ibgp-full-ipv6
    neighbor 2001:13::13 peer group ibgp-full-ipv6
    redistribute static
+   redistribute connected route-map LOCAL
    !
    address-family ipv6
       neighbor ibgp-full-ipv6 activate
