@@ -73,12 +73,6 @@ interface Loopback0
    isis enable 1
    isis passive
 !
-interface Ethernet2
-   isis enable 1
-   isis circuit-type level-2
-   isis metric 100
-   isis network point-to-point
-!
 ! SR Config
 !
 router isis 1
