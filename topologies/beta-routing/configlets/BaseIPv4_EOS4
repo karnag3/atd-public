@@ -111,8 +111,8 @@ router multicast
 router ospf 100
    router-id 10.11.1.20
    passive-interface default
-   no passive interface Vlan401
-   no passive interface Vlan4094
+   no passive-interface Vlan401
+   no passive-interface Vlan4094
    redistribute connected
    max-lsa 20000 40 ignore-time 10 ignore-count 4 reset-time 20
    log-adjacency-changes detail
