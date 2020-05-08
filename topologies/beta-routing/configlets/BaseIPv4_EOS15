@@ -1,14 +1,40 @@
-hostname eos15
+hostname Stanton-Brocade
+!
+spanning-tree mode rapid-pvst
+!
+vlan 498
+   name Stanton-Arista
 !
 interface Ethernet1
-   description EOS8
-   no switchport
-   ip address 10.8.15.15/24
+   description Stanton-Arista
+   switchport trunk allowed vlan 499
+   switchport mode trunk
 !
 interface Loopback0
+   description Management Loopback
    ip address 15.15.15.15/32
+   ip ospf area 0.0.0.0
 !
 interface Management1
    ip address 192.168.0.24/24
    no lldp transmit
    no lldp receive
+!
+interface Vlan498
+   description Stanton-Arista-Brocade
+   ip address 10.11.254.2/30
+   ip ospf area 0.0.0.0
+   ip ospf network point-to-point
+   pim ipv4 sparse-mode
+!
+router multicast
+   ipv4
+      routing
+!
+router ospf 100
+   router-id 15.15.15.15
+   passive-interface default
+   no passive interface Vlan499
+   redistribute connected
+   max-lsa 20000 40 ignore-time 10 ignore-count 4 reset-time 20
+   log-adjacency-changes detail

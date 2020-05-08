@@ -1,37 +1,88 @@
-hostname eos6
+hostname Clarinda-Arista
+!
+spanning-tree mode rapid-pvst
+!
+vlan 405
+   name NewMarket-Clarinda
+!
+vlan 406
+   name Clarinda-Stanton
 !
 interface Ethernet1
-   description EOS5
-   no switchport
-   ip address 10.5.6.6/24
+   description UNUSED
+   shutdown
 !
 interface Ethernet2
-   description EOS8
-   no switchport
-   ip address 10.6.8.6/24
+   description Stanton-Arista
+   switchport trunk allowed vlan 406
+   switchport mode trunk
 !
 interface Ethernet3
-   description EOS13
-   no switchport
-   ip address 10.6.13.6/24
+   description Clarinda-Client-1
+   switchport trunk allowed vlan none
+   switchport mode trunk
 !
 interface Ethernet4
-   description EOS1
-   no switchport
-   ip address 10.1.6.6/24
+   description UNUSED
+   shutdown
 !
 interface Ethernet5
-   description EOS2
-   no switchport
-   ip address 10.2.6.6/24
+   description New-Market-Arista
+   switchport trunk allowed vlan 405
+   switchport mode trunk
 !
 interface Ethernet6
-   description EOS14
+   description Clarinda-Calix
+   switchport trunk allowed vlan none
+   switchport mode trunk
 !
 interface Loopback0
-   ip address 6.6.6.6/32
+   description Management Loopback
+   ip address 10.11.1.70/24
+   ip ospf area 0.0.0.0
 !
 interface Management1
    ip address 192.168.0.15/24
    no lldp transmit
    no lldp receive
+!
+interface Vlan405
+   description NewMarket-Clarinda
+   ip address 10.111.60.2/30
+   ip ospf area 0.0.0.0
+   ip ospf network point-to-point
+   pim ipv4 sparse-mode
+!
+interface Vlan406
+   description Clarinda-Stanton
+   ip address 10.111.70.1/30
+   ip ospf area 0.0.0.0
+   ip ospf network point-to-point
+   pim ipv4 sparse-mode
+!
+router bgp 65001
+   router-id 10.11.1.70
+   no bgp default ipv4-unicast
+   neighbor HEADENDS peer group
+   neighbor HEADENDS remote-as 65001
+   neighbor HEADENDS update-source Loopback0
+   neighbor HEADENDS send-community
+   neighbor HEADENDS maximum-routes 12000
+   neighbor 10.11.1.1 peer group HEADENDS
+   neighbor 10.11.1.60 peer group HEADENDS
+   !
+   address-family evpn
+      neighbor HEADENDS activate
+!
+router multicast
+   ipv4
+      routing
+!
+router ospf 100
+   router-id 10.11.1.70
+   passive-interface default
+   no passive interface Vlan405
+   no passive interface Vlan406
+   redistribute connected
+   max-lsa 20000 40 ignore-time 10 ignore-count 4 reset-time 20
+   log-adjacency-changes detail

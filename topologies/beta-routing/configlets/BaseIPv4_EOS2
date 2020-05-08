@@ -1,4 +1,15 @@
-hostname eos2
+hostname New-Market-Arista
+!
+spanning-tree mode rapid-pvst
+!
+vlan 404
+   name NewMarket-Lenox
+!
+vlan 405
+   name NewMarket-Clarinda
+!
+vlan 498
+   name NewMarket-Brocade
 !
 interface Ethernet1
    description EOS3
@@ -11,24 +22,110 @@ interface Ethernet2
    ip address 10.2.4.2/24
 !
 interface Ethernet3
-   description EOS5
-   no switchport
-   ip address 10.2.5.2/24
+   description New-Market-Brocade
+   switchport trunk allowed vlan 498
+   switchport mode trunk
 !
 interface Ethernet4
-   description EOS6
-   no switchport
-   ip address 10.2.6.2/24
+   description Clarinda-Arista
+   switchport trunk allowed vlan 405
+   switchport mode trunk
 !
 interface Ethernet5
-   description EOS1
-   no switchport
-   ip address 10.1.2.2/24
+   description Lenox-Arista
+   switchport trunk allowed vlan 404
+   switchport mode trunk
 !
 interface Loopback0
-   ip address 2.2.2.2/32
+   description Management Loopback
+   ip address 10.11.1.60/32
+   ip ospf area 0.0.0.0
 !
 interface Management1
    ip address 192.168.0.11/24
    no lldp transmit
    no lldp receive
+!
+interface Vlan404
+   description NewMarket-Lenox
+   ip address 10.111.50.2/30
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+   pim ipv4 sparse-mode
+!
+interface Vlan405
+   description NewMarket-Clarinda
+   ip address 10.111.60.1/30
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+   pim ipv4 sparse-mode
+!
+interface Vlan498
+   description New-Market-Arista-Brocade
+   ip address 10.11.254.5/30
+   ip ospf area 0.0.0.0
+   ip ospf network point-to-point
+   pim ipv4 sparse-mode
+!
+ip route 99.99.99.99/32 10.11.254.6 name SIMULATED-DEFAULT
+!
+ip prefix-list SIMULATED-DEFAULT seq 100 permit 99.99.99.99/32
+!
+route-map FT-SITES-IN permit 100
+   set tag 101
+!
+route-map FT-SITES-OUT deny 100
+   match tag 201
+!
+route-map FT-SITES-OUT permit 1000
+!
+route-map STANTON-IN permit 100
+   set tag 201
+!
+route-map STANTON-OUT deny 100
+   match tag 101
+!
+route-map STANTON-OUT permit 1000
+!
+route-map SIMULATED-DEFAULT permit 100
+   match ip address prefix-list SIMULATED-DEFAULT
+!
+router bgp 65001
+   router-id 10.11.1.60
+   no bgp default ipv4-unicast
+   neighbor FT-SITES peer group
+   neighbor FT-SITES remote-as 65001
+   neighbor FT-SITES update-source Loopback0
+   neighbor FT-SITES route-reflector-client
+   neighbor FT-SITES send-community
+   neighbor FT-SITES maximum-routes 12000
+   neighbor STANTON peer group
+   neighbor STANTON remote-as 65001
+   neighbor STANTON update-source Loopback0
+   neighbor STANTON send-community
+   neighbor STANTON maximum-routes 0
+   neighbor 10.11.1.1 peer group STANTON
+   neighbor 10.11.1.20 peer group FT-SITES
+   neighbor 10.11.1.30 peer group FT-SITES
+   neighbor 10.11.1.40 peer group FT-SITES
+   neighbor 10.11.1.50 peer group FT-SITES
+   neighbor 10.11.1.70 peer group FT-SITES
+   !
+   address-family evpn
+      neighbor FT-SITES activate
+      neighbor STANTON activate
+!
+router multicast
+   ipv4
+      routing
+!
+router ospf 100
+   router-id 10.11.1.60
+   passive-interface default
+   no passive interface Vlan404
+   no passive interface Vlan405
+   no passive interface Vlan498
+   redistribute connected
+   redistribute static route-map SIMULATED-DEFAULT
+   max-lsa 20000 40 ignore-time 10 ignore-count 4 reset-time 20
+   log-adjacency-changes detail

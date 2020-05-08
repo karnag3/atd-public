@@ -1,36 +1,118 @@
-hostname eos4
+hostname Villisca-Arista-A
+!
+spanning-tree mode rapid-pvst
+!
+vlan 250
+   name IAI_Alarm
+!
+vlan 401
+   name Stanton-Villisca
+!
+vlan 4094
+   name MLAG_Peer_Vlan
+   trunk group PEER
+!
+interface Port-Channel2000
+   description MLAG Peer-link to Villisca-Arista-B
+   switchport mode trunk
+   switchport trunk group PEER
 !
 interface Ethernet1
-   description EOS9
+   description Dual-Homed Villisca-Calix
+   switchport trunk allowed vlan none
+   switchport mode trunk
 !
 interface Ethernet2
-   description EOS8
-   no switchport
-   ip address 10.4.8.4/24
+   description Stanton-Arista
+   switchport trunk allowed vlan 401
+   switchport mode trunk
 !
 interface Ethernet3
-   description EOS5
-   no switchport
-   ip address 10.4.5.4/24
+   description UNUSED
+   shutdown
 !
 interface Ethernet4
-   description EOS2
-   no switchport
-   ip address 10.2.4.4/24
+   description UNUSED
+   shutdown
 !
 interface Ethernet5
-   description EOS3
-   no switchport
-   ip address 10.3.4.4/24
+   description Po2000 to Villisca-Arista-B
+   channel-group 2000 mode active
 !
 interface Ethernet6
-   description EOS16
-   no switchport
+   description Villisca-A-Client
+   switchport trunk allowed vlan none
+   switchport mode trunk
 !
 interface Loopback0
-   ip address 4.4.4.4/32
+   description Management Loopback
+   ip address 10.11.1.20/32
+   ip ospf area 0.0.0.0
+!
+interface Loopback1
+   description MLAG VTEP
+   ip address 10.11.1.25/32
+   ip ospf area 0.0.0.0
 !
 interface Management1
    ip address 192.168.0.13/24
    no lldp transmit
    no lldp receive
+!
+interface Vlan401
+   description Stanton-Villisca
+   ip address 10.111.11.2/30
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+   pim ipv4 sparse-mode
+!
+interface Vlan4094
+   description MLAG Peer Network
+   ip address 10.111.25.2/30
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+   pim ipv4 sparse-mode
+!
+interface Vxlan1
+   vxlan source-interface Loopback1
+   vxlan udp-port 4789
+   vxlan vlan 250 vni 250
+!
+mlag configuration
+   domain-id MLAG
+   local-interface Vlan4094
+   peer-address 10.111.25.1
+   peer-link Port-Channel2000
+!
+router bgp 65001
+   router-id 10.11.1.20
+   no bgp default ipv4-unicast
+   neighbor HEADENDS peer group
+   neighbor HEADENDS remote-as 65001
+   neighbor HEADENDS update-source Loopback0
+   neighbor HEADENDS send-community
+   neighbor HEADENDS maximum-routes 12000
+   neighbor 10.11.1.1 peer group HEADENDS
+   neighbor 10.11.1.60 peer group HEADENDS
+   !
+   vlan 250
+      !! IAI_Alarm
+      rd auto
+      route-target both 250:250
+      redistribute learned
+   !
+   address-family evpn
+      neighbor HEADENDS activate
+!
+router multicast
+   ipv4
+      routing
+!
+router ospf 100
+   router-id 10.11.1.20
+   passive-interface default
+   no passive interface Vlan401
+   no passive interface Vlan4094
+   redistribute connected
+   max-lsa 20000 40 ignore-time 10 ignore-count 4 reset-time 20
+   log-adjacency-changes detail

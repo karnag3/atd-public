@@ -1,38 +1,119 @@
-hostname eos1
+hostname Lenox-Arista
+!
+spanning-tree mode rapid-pvst
+!
+vlan 5
+   name Lenox_Data
+!
+vlan 15
+   name Lennox_Voice
+!
+vlan 33
+   name Lenox_Video
+!
+vlan 403
+   name Lenox-Corning
+!
+vlan 404
+   name Lenox-NewMarket
 !
 interface Ethernet1
-   description EOS2
-   no switchport
-   ip address 10.1.2.1/24
+   description New-Market-Arista
+   switchport trunk allowed vlan 404
+   switchport mode trunk
 !
 interface Ethernet2
-   description EOS7
-   no switchport
-   ip address 10.1.7.1/24
+   description New-Market-Arista
+   switchport trunk allowed vlan 403
+   switchport mode trunk
 !
 interface Ethernet3
-   description EOS11
-   no switchport
-   ip address 10.1.11.1/24
+   description Lenox-Brocade
+   switchport trunk allowed vlan none
+   switchport mode trunk
 !
 interface Ethernet4
-   description EOS6
-   no switchport
-   ip address 10.1.6.1/24
+   description UNUSED
+   shutdown
 !
 interface Ethernet5
-   description EOS5
-   no switchport
-   ip address 10.1.5.1/24
+   description UNUSED
+   shutdown
 !
 interface Ethernet6
-   description EOS17
-   no switchport
+   description Lenox-Calix
+   switchport trunk allowed vlan none
+   switchport mode trunk
 !
 interface Loopback0
-   ip address 1.1.1.1/32
+   description Management Loopback
+   ip address 10.11.1.50/32
+   ip ospf area 0.0.0.0
 !
 interface Management1
    ip address 192.168.0.10/24
    no lldp transmit
    no lldp receive
+!
+interface Vlan15
+   description Lenox_Voice
+   ip address 10.100.100.254/24
+   ip ospf area 0.0.0.0
+!
+interface Vlan33
+   description Lenox Video
+   shutdown
+   ip address 10.174.63.254/18
+   ip ospf area 0.0.0.0
+   pim ipv4 sparse-mode
+!
+interface Vlan403
+   description Lenox-Corning
+   ip address 10.111.40.2/30
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+   pim ipv4 sparse-mode
+!
+interface Vlan404
+   description Lenox-NewMarket
+   ip address 10.111.50.1/30
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+   pim ipv4 sparse-mode
+!
+interface Vxlan1
+   vxlan source-interface Loopback0
+   vxlan udp-port 4789
+   vxlan vlan 5 vni 5
+!
+router bgp 65001
+   router-id 10.11.1.50
+   no bgp default ipv4-unicast
+   neighbor HEADENDS peer group
+   neighbor HEADENDS remote-as 65001
+   neighbor HEADENDS update-source Loopback0
+   neighbor HEADENDS send-community
+   neighbor HEADENDS maximum-routes 12000
+   neighbor 10.11.1.1 peer group HEADENDS
+   neighbor 10.11.1.60 peer group HEADENDS
+   !
+   vlan 5
+      rd auto
+      route-target both 5:5
+      redistribute learned
+   !
+   address-family evpn
+      neighbor HEADENDS activate
+!
+router multicast
+   ipv4
+      routing
+!
+router ospf 100
+   router-id 10.11.1.50
+   passive-interface default
+   no passive interface Vlan403
+   no passive interface Vlan404
+   redistribute connected
+   max-lsa 20000 40 ignore-time 10 ignore-count 4 reset-time 20
+   log-adjacency-changes detail

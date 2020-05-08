@@ -1,34 +1,56 @@
-hostname eos5
+hostname New-Market-Brocade
+!
+spanning-tree mode rapid-pvst
+!
+vlan 498
+   name NewMarket-Arista
 !
 interface Ethernet1
-   description EOS4
-   no switchport
-   ip address 10.4.5.5/24
+   description UNUSED
+   shutdown
 !
 interface Ethernet2
-   description EOS3
-   no switchport
-   ip address 10.3.5.5/24
+   description UNUSED
+   shutdown
 !
 interface Ethernet3
-   description EOS2
-   no switchport
-   ip address 10.2.5.5/24
+   description New-Market-Arista
+   switchport trunk allowed vlan 498
+   switchport mode trunk
 !
 interface Ethernet4
-   description EOS1
-   no switchport
-   ip address 10.1.5.5/24
+   description UNUSED
+   shutdown
 !
 interface Ethernet5
-   description EOS6
-   no switchport
-   ip address 10.5.6.5/24
+   description UNUSED
+   shutdown
 !
 interface Loopback0
+   description Management Loopback
    ip address 5.5.5.5/32
+   ip ospf area 0.0.0.0
 !
 interface Management1
    ip address 192.168.0.14/24
    no lldp transmit
    no lldp receive
+!
+interface Vlan498
+   description New-Market-Arista-Brocade
+   ip address 10.11.254.6/30
+   ip ospf area 0.0.0.0
+   ip ospf network point-to-point
+   pim ipv4 sparse-mode
+!
+router multicast
+   ipv4
+      routing
+!
+router ospf 100
+   router-id 5.5.5.5
+   passive-interface default
+   no passive interface Vlan498
+   redistribute connected
+   max-lsa 20000 40 ignore-time 10 ignore-count 4 reset-time 20
+   log-adjacency-changes detail

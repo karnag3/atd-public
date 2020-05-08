@@ -1,32 +1,229 @@
-hostname eos8
+hostname Stanton-Arista
+!
+spanning-tree mode rapid-pvst
+!
+vlan 3
+   name Video
+!
+vlan 5
+   name Lenox_data
+!
+vlan 9
+   name ADT_Alarms
+!
+vlan 14
+   name Data
+!
+vlan 116
+   name E_7_Voice
+!
+vlan 200
+   name Calix_MGMT
+!
+vlan 250
+   name IAI_Alarm
+!
+vlan 401
+   name Stanton_Villisca
+!
+vlan 406
+   name Clarinda-Stanton
+!
+vlan 499
+   name Brocade_Access
+!
+vlan 1262
+   name US_CELL_Corning_2
+!
+vlan 1263
+   name US_CELL_Corning_3
+!
+vlan 3284
+   name US_CELL_Corning_1
 !
 interface Ethernet1
-   description EOS4
-   no switchport
-   ip address 10.4.8.8/24
+   description Villisca-Arista-A
+   switchport trunk allowed vlan 401
+   switchport mode trunk
 !
 interface Ethernet2
-   description EOS15
-   no switchport
-   ip address 10.8.15.8/24
+   description Stanton-Brocade
+   switchport trunk allowed vlan 499
+   switchport mode trunk
 !
 interface Ethernet3
-   description EOS6
-   no switchport
-   ip address 10.6.8.8/24
+   description Clarinda-Arista
+   switchport trunk allowed vlan 406
+   switchport mode trunk
 !
 interface Ethernet4
-   description EOS14
+   description UNUSED
+   shutdown
 !
 interface Ethernet5
-   description EOS18
-   no switchport
-   ip address 10.8.18.8/24
+   description Stanton-Calix
+   switchport trunk allowed vlan none
+   switchport mode trunk
 !
 interface Loopback0
-   ip address 8.8.8.8/32
+   description Management Loopback and VTEP
+   ip address 10.11.1.1/32
+   ip ospf area 0.0.0.0
 !
 interface Management1
    ip address 192.168.0.17/24
    no lldp transmit
    no lldp receive
+!
+interface Vlan250
+   description Alarm Testing
+   shutdown
+   ip address 10.120.80.80/24
+!
+interface Vlan401
+   description Stanton_Villisca
+   ip address 10.111.11.1/30
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+   pim ipv4 sparse-mode
+!
+interface Vlan406
+   description Clarinda-Stanton
+   ip address 10.111.70.2/30
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+   pim ipv4 sparse-mode
+!
+interface Vlan499
+   description Stanton-Arista-Brocade
+   ip address 10.11.254.1/30
+   ip ospf area 0.0.0.0
+   ip ospf network point-to-point
+   pim ipv4 sparse-mode
+!
+interface Vxlan1
+   vxlan source-interface Loopback0
+   vxlan udp-port 4789
+   vxlan vlan 5 vni 5
+   vxlan vlan 9 vni 9
+   vxlan vlan 14 vni 14
+   vxlan vlan 225 vni 225
+   vxlan vlan 250 vni 250
+   vxlan vlan 1262 vni 1262
+   vxlan vlan 1263 vni 1263
+   vxlan vlan 3284 vni 3284
+!
+ip route 99.99.99.99/32 10.11.254.2 name SIMULATED-DEFAULT
+!
+ip prefix-list SIMULATED-DEFAULT seq 100 permit 99.99.99.99/32
+!
+route-map FT-SITES-IN permit 100
+   set tag 101
+!
+route-map FT-SITES-OUT deny 100
+   match tag 201
+!
+route-map FT-SITES-OUT permit 1000
+!
+route-map NEW-MARKET-IN permit 100
+   set tag 201
+!
+route-map NEW-MARKET-OUT deny 100
+   match tag 101
+!
+route-map NEW-MARKET-OUT permit 1000
+!
+route-map SIMULATED-DEFAULT permit 100
+   match ip address prefix-list SIMULATED-DEFAULT
+!
+router bgp 65001
+   router-id 10.11.1.1
+   no bgp default ipv4-unicast
+   neighbor FT-SITES peer group
+   neighbor FT-SITES remote-as 65001
+   neighbor FT-SITES update-source Loopback0
+   neighbor FT-SITES route-map FT-SITES-IN in
+   neighbor FT-SITES route-map FT-SITES-OUT out
+   neighbor FT-SITES route-reflector-client
+   neighbor FT-SITES send-community
+   neighbor FT-SITES maximum-routes 12000
+   neighbor NEW-MARKET peer group
+   neighbor NEW-MARKET remote-as 65001
+   neighbor NEW-MARKET update-source Loopback0
+   neighbor NEW-MARKET route-map NEW-MARKET-IN in
+   neighbor NEW-MARKET route-map NEW-MARKET-OUT out
+   neighbor NEW-MARKET send-community
+   neighbor NEW-MARKET maximum-routes 0
+   neighbor 10.11.1.20 peer group FT-SITES
+   neighbor 10.11.1.30 peer group FT-SITES
+   neighbor 10.11.1.40 peer group FT-SITES
+   neighbor 10.11.1.50 peer group FT-SITES
+   neighbor 10.11.1.60 peer group NEW-MARKET
+   neighbor 10.11.1.70 peer group FT-SITES
+   !
+   vlan 1262
+      !! US_CELL_Corning_2
+      rd auto
+      route-target both 1262:1262
+      redistribute learned
+   !
+   vlan 1263
+      !! US_CELL_Corning_3
+      rd auto
+      route-target both 1263:1263
+      redistribute learned
+   !
+   vlan 14
+      !! FMTC_Data_Public
+      rd auto
+      route-target both 14:14
+      redistribute learned
+   !
+   vlan 225
+      !! FMTC_Guest
+      rd auto
+      route-target both 225:225
+      redistribute learned
+   !
+   vlan 250
+      !! IAI_Alarm
+      rd auto
+      route-target both 250:250
+      redistribute learned
+   !
+   vlan 3284
+      !! US_CELL_Corning_1
+      rd auto
+      route-target both 3284:3284
+      redistribute learned
+   !
+   vlan 5
+      !! Lenox_Data
+      rd auto
+      route-target both 5:5
+      redistribute learned
+   !
+   vlan 9
+      !! ADT Alarm
+      rd auto
+      route-target both 9:9
+      redistribute learned
+   !
+   address-family evpn
+      neighbor FT-SITES activate
+      neighbor NEW-MARKET activate
+!
+router multicast
+   ipv4
+      routing
+!
+router ospf 100
+   router-id 10.11.1.1
+   passive-interface default
+   no passive interface Vlan401
+   no passive interface Vlan406
+   no passive interface Vlan499
+   redistribute connected
+   redistribute static route-map SIMULATED-DEFAULT
+   max-lsa 20000 40 ignore-time 10 ignore-count 4 reset-time 20
+   log-adjacency-changes detail
