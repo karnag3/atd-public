@@ -117,3 +117,4 @@ router ospf 100
    redistribute connected
    max-lsa 20000 40 ignore-time 10 ignore-count 4 reset-time 20
    log-adjacency-changes detail
+!
