@@ -5,6 +5,9 @@ spanning-tree mode rapid-pvst
 vlan 250
    name IAI_Alarm
 !
+vlan 251
+   name VLAN_TEST
+!
 vlan 401
    name Stanton-Villisca
 !
@@ -41,7 +44,7 @@ interface Ethernet5
 !
 interface Ethernet6
    description Villisca-A-Client
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 251
    switchport mode trunk
 !
 interface Loopback0
@@ -77,6 +80,7 @@ interface Vxlan1
    vxlan source-interface Loopback1
    vxlan udp-port 4789
    vxlan vlan 250 vni 250
+   vxlan vlan 251 vni 251
 !
 mlag configuration
    domain-id MLAG
@@ -99,6 +103,11 @@ router bgp 65001
       !! IAI_Alarm
       rd auto
       route-target both 250:250
+      redistribute learned
+   !
+   vlan 251
+      rd auto
+      route-target both 251:251
       redistribute learned
    !
    address-family evpn

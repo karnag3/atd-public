@@ -19,6 +19,9 @@ vlan 225
 vlan 250
    name IAI_Alarm
 !
+vlan 251
+   name VLAN_TEST
+!
 vlan 402
    name Villisca-Corning
 !
@@ -32,6 +35,8 @@ interface Ethernet1
 !
 interface Ethernet2
    description Corning-Client-1
+   switchport trunk allowed vlan 251
+   switchport mode trunk
 !
 interface Ethernet3
    description Lenox-Arista
@@ -79,6 +84,7 @@ interface Vxlan1
    vxlan vlan 14 vni 14
    vxlan vlan 225 vni 225
    vxlan vlan 250 vni 250
+   vxlan vlan 251 vni 251
    vxlan vlan 1262 vni 1262
    vxlan vlan 1263 vni 1263
    vxlan vlan 3284 vni 3284
@@ -122,6 +128,11 @@ router bgp 65001
       !! IAI_Alarm
       rd auto
       route-target both 250:250
+      redistribute learned
+   !
+   vlan 251
+      rd auto
+      route-target both 251:251
       redistribute learned
    !
    vlan 3284

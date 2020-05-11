@@ -11,6 +11,9 @@ vlan 15
 vlan 33
    name Lenox_Video
 !
+vlan 251
+   name VLAN_TEST
+!
 vlan 403
    name Lenox-Corning
 !
@@ -29,7 +32,7 @@ interface Ethernet2
 !
 interface Ethernet3
    description Lenox-Brocade
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 251
    switchport mode trunk
 !
 interface Ethernet4
@@ -85,6 +88,7 @@ interface Vxlan1
    vxlan source-interface Loopback0
    vxlan udp-port 4789
    vxlan vlan 5 vni 5
+   vxlan vlan 251 vni 251
 !
 router bgp 65001
    router-id 10.11.1.50
@@ -100,6 +104,11 @@ router bgp 65001
    vlan 5
       rd auto
       route-target both 5:5
+      redistribute learned
+   !
+   vlan 251
+      rd auto
+      route-target both 251:251
       redistribute learned
    !
    address-family evpn

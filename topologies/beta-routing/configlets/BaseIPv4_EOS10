@@ -1,14 +1,22 @@
-hostname eos10
+hostname Corning-Client
+!
+spanning-tree mode rapid-pvst
+!
+vlan 251
+   name VLAN_TEST
 !
 interface Ethernet1
-   description EOS7
-   no switchport
-   ip address 10.0.0.10/24
-!
-interface Loopback0
-   ip address 10.10.10.10/32
+   description Corning-Arista
+   switchport trunk allowed vlan 251
+   switchport mode trunk
 !
 interface Management1
    ip address 192.168.0.19/24
    no lldp transmit
    no lldp receive
+!
+interface Vlan251
+   description Testing Client for VXLAN
+   ip address 251.251.251.10/24
+!
+ip route 200.200.200.0/24 251.251.251.11

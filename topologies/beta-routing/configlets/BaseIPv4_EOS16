@@ -1,13 +1,22 @@
-hostname eos16
+hostname Villisca-A-Client
+!
+spanning-tree mode rapid-pvst
+!
+vlan 251
+   name VLAN_TEST
 !
 interface Ethernet1
-   no switchport
-   ip address 10.16.17.16/24
-!
-interface Loopback0
-   ip address 16.16.16.16/32
+   description Villisca-Arista-A
+   switchport trunk allowed vlan 251
+   switchport mode trunk
 !
 interface Management1
    ip address 192.168.0.25/24
    no lldp transmit
    no lldp receive
+!
+interface Vlan251
+   description Testing Client for VXLAN
+   ip address 251.251.251.16/24
+!
+ip route 200.200.200.0/24 251.251.251.11

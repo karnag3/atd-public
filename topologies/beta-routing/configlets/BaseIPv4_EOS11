@@ -1,24 +1,32 @@
-hostname eos11
+hostname Lenox-Brocade
+!
+spanning-tree mode rapid-pvst
+!
+vlan 251
+   name VLAN_TEST
 !
 interface Ethernet1
-   description EOS1
-   no switchport
-   ip address 10.1.11.11/24
+   description Lenox-Arista
+   switchport trunk allowed vlan 251
+   switchport mode trunk
 !
 interface Ethernet2
-   description EOS12
-   no switchport
-   ip address 10.11.12.11/24
+   description Lenox-Client-1
+   switchport trunk allowed vlan 251
+   switchport mode trunk
 !
 interface Ethernet3
-   description EOS13
-   no switchport
-   ip address 10.11.13.11/24
+   description UNUSED
+   shutdown
 !
-interface Loopback0
-   ip address 11.11.11.11/32
+interface Loopback200
+   ip address 200.200.200.200/32
 !
 interface Management1
    ip address 192.168.0.20/24
    no lldp transmit
    no lldp receive
+!
+interface Vlan251
+   description Testing Gateway for VXLAN
+   ip address 251.251.251.11/24
