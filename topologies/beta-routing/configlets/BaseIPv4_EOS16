@@ -17,6 +17,6 @@ interface Management1
 !
 interface Vlan251
    description Testing Client for VXLAN
-   ip address 251.251.251.16/24
+   ip address 10.251.251.16/24
 !
-ip route 200.200.200.0/24 251.251.251.11
+ip route 200.200.200.0/24 10.251.251.11
