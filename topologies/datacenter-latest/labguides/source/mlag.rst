@@ -136,7 +136,7 @@ MLAG
             show lldp neighbors
             show interfaces trunk
 
-   3. Validate connectivity from **Host1** to **Host2** by logging into **Host1** through the menu (option 7) or using screen.
+   3. Validate connectivity from **Host1** to **Host2** by logging into **Host1** through the menu (option 1) or using screen.
 
         .. code-block:: text
 
