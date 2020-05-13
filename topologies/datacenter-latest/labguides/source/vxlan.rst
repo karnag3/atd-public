@@ -43,6 +43,9 @@ VxLAN
         show mlag interfaces
         show port-channel
 
+      .. note:: We expect an inconsistent state for MLAG here and issuing a ``show mlag config-sanity`` will show that this is due to a difference in Local vs Peer configuration for the VXLAN VTEP interface. However, from our ``show mlag interfaces`` output we should see that ``mlag 4`` is in an ``active-full`` state.
+
+
 4. Validate BGP operation **Leaf3**
 
     .. code-block:: text
@@ -174,4 +177,8 @@ VxLAN
         show mac address-table
         show log
 
+      .. note:: These outputs provide many valuable data points.  ``show interface vxlan 1`` shows us items such as VNI to VLAN mappings and Remote VTEPs that a given VLAN is flooded to along with other items.  ``show mac address-table`` will show remote addresses as found on Port ``Vx1``.
+
+
 **LAB COMPLETE!**
+
